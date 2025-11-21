@@ -13,27 +13,42 @@
                             <div class="p-5">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">¡Bienvenidos!</h1>
-                                </div>                            
+                                </div>
                                 <div class="text-center">
                                     <p>Registro de usuario</p>
                                 </div>
                                 <hr>
-                                <form class="user">
+                                <form class="user" (ngSubmit)="onRegister(formRegister)" #formRegister="ngForm">
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user"
-                                            id="exampleInputEmail" aria-describedby="emailHelp"
-                                            placeholder="Escribir correo...">
+                                        <input type="text" class="form-control form-control-user" id="inputName"
+                                            placeholder="Nombre completo" name="name" ngModel required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Escribir contraseña...">
+                                        <input type="email" class="form-control form-control-user" id="inputEmail"
+                                            aria-describedby="emailHelp" placeholder="Correo electrónico" name="email"
+                                            ngModel required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-user" id="inputPassword"
+                                            placeholder="Contraseña (mínimo 6 caracteres)" name="password" ngModel
+                                            required minlength="6">
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control form-control-user" name="role" ngModel required>
+                                            <option value="" disabled selected>Seleccionar rol</option>
+                                            <option value="Administrador">Administrador</option>
+                                            <option value="Líder de Proyecto">Líder de Proyecto</option>
+                                            <option value="Miembro de Equipo">Miembro de Equipo</option>
+                                            <option value="Observador">Observador</option>
+                                        </select>
                                     </div>
 
-                                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                    <button type="submit" class="btn btn-primary btn-user btn-block"
+                                        [disabled]="!formRegister.valid">
                                         Registrarse
-                                    </a>                                                                       
+                                    </button>
                                 </form>
-                                <hr>                                
+                                <hr>
                                 <div class="text-center">
                                     <a class="small" href="login">¿Ya tienes cuenta? Inicia sesión</a>
                                     <br>

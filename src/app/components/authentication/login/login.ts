@@ -24,8 +24,14 @@ export class Login {
   onLogin(form: any): void {
     this.authenticationService.login(form.value).subscribe(
       (res) => {
-        localStorage.setItem('accessToken',JSON.parse(JSON.stringify(res)).accessToken);
-        this.router.navigateByUrl('/animal');
+        if (res.token) {
+          localStorage.setItem('accessToken', res.token);
+          this.router.navigateByUrl('/animal');
+        }
+      },
+      (error) => {
+        console.error('Error en el login:', error);
+        alert('Error al iniciar sesión: ' + (error.error?.message || 'Credenciales inválidas'));
       }
     );
   }

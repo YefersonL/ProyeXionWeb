@@ -1,10 +1,10 @@
 export interface Jwtres {
-  datosUsuario: {
-    id: number,
-    usuario: string,
-    correo: string,
-    clave: string,
-    accessToken: string,
-    expiresIn: string
-  }
+  user?: {
+    id: string,
+    name: string,
+    email: string,
+    role: string
+  },
+  token?: string,
+  message?: string
 }

@@ -8,14 +8,14 @@ import { Jwtres } from '../models/jwtres';
   providedIn: 'root',
 })
 export class Authentication {
-  apiUri = '/api';
+  apiUri = '/api/auth';
   authSubject = new BehaviorSubject(false);
   private token: string | null = '';
 
   constructor(private httpClient: HttpClient) { }
 
   register(user: User): Observable<Jwtres> {
-    return this.httpClient.post<Jwtres>(this.apiUri + '/signup', user);
+    return this.httpClient.post<Jwtres>(this.apiUri + '/register', user);
   }
 
   login(user: User): Observable<Jwtres> {
