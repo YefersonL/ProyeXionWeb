@@ -26,7 +26,11 @@ export class Login {
       (res) => {
         if (res.token) {
           localStorage.setItem('accessToken', res.token);
-          this.router.navigateByUrl('/animal');
+          // Guardar nombre del usuario si viene en la respuesta
+          if (res.user?.name) {
+            localStorage.setItem('userName', res.user.name);
+          }
+          this.router.navigateByUrl('/dashboard');
         }
       },
       (error) => {

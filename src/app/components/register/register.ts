@@ -28,12 +28,15 @@ export class Register {
       this.authenticationService.register(form.value).subscribe(
         (res) => {
           console.log('Usuario registrado exitosamente', res);
-          // Guardar el token si lo devuelve el backend
+          // Guardar el token y datos del usuario
           if (res.token) {
             localStorage.setItem('accessToken', res.token);
           }
-          // Redirigir al login o al home
-          this.router.navigateByUrl('/login');
+          if (res.user?.name) {
+            localStorage.setItem('userName', res.user.name);
+          }
+          // Redirigir directamente al dashboard
+          this.router.navigateByUrl('/dashboard');
         },
         (error) => {
           console.error('Error en el registro:', error);

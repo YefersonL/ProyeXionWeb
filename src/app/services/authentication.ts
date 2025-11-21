@@ -41,6 +41,15 @@ export class Authentication {
     localStorage.removeItem("EXPIRES_IN");
   }
 
+  updateProfile(data: any): Observable<Jwtres> {
+    const token = localStorage.getItem('accessToken');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+
+    return this.httpClient.put<Jwtres>(this.apiUri + '/profile', data, { headers });
+  }
+
   private saveToken(token: string, expiresIn: string) {
     localStorage.setItem("ACCESS_TOKEN", token);
     localStorage.setItem("EXPIRES_IN", token);
