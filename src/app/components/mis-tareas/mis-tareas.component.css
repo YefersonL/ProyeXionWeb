@@ -1,185 +1,221 @@
-/* General */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f7fc;
-  color: #333;
-}
+/* ===========================
+   CONTENEDOR PRINCIPAL
+=========================== */
 
 .tareas-container {
-  width: 80%;
-  margin: 20px auto;
-  max-width: 1200px;
-}
-
-h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #4f46e5;
-}
-
-/* Card */
-.card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  max-width: 900px;
+  margin: 40px auto;
   padding: 20px;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-.form-card h3 {
-  color: #4f46e5;
-  text-align: center;
-  margin-bottom: 15px;
-  font-size: 1.5rem;
+/* Animación suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.card label {
-  display: block;
-  margin: 10px 0 5px;
-  font-weight: bold;
+/* ===========================
+   ENCABEZADO + BOTÓN VOLVER
+=========================== */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
 }
 
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  font-size: 1rem;
+.btn-volver {
+  background: #4b47ff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(75, 71, 255, 0.3);
+  transition: 0.25s;
+}
+
+.btn-volver:hover {
+  background: #3935d6;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(75, 71, 255, 0.45);
+}
+
+/* ===========================
+   CARDS (flotantes)
+=========================== */
+
+.card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
   color: #333;
 }
 
-textarea {
-  resize: vertical;
+/* ===========================
+   FORMULARIO
+=========================== */
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+  color: #444;
 }
 
+input,
+textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #dbdbdb;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  font-size: 15px;
+  transition: 0.2s;
+  background: #fafafa;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #4b47ff;
+  background: #fff;
+  box-shadow: 0 0 6px rgba(75, 71, 255, 0.4);
+}
+
+/* BOTONES */
 .buttons {
   display: flex;
-  justify-content: space-between;
+  gap: 12px;
 }
 
 button {
-  padding: 10px 15px;
+  padding: 12px 26px;
+  border-radius: 12px;
   border: none;
-  border-radius: 5px;
-  background-color: #4f46e5;
-  color: #fff;
-  font-size: 1rem;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  transition: 0.25s ease;
+  box-shadow: 0 5px 14px rgba(75, 71, 255, 0.25);
 }
 
 button:hover {
-  background-color: #4338ca;
+  transform: translateY(-3px);
 }
 
-button.cancelar {
-  background-color: #ddd;
+/* Botón principal */
+button:not(.eliminar):not(.cancelar) {
+  background: #4b47ff;
+  color: white;
+}
+
+button:not(.eliminar):not(.cancelar):hover {
+  background: #3935d6;
+}
+
+/* Botón cancelar */
+.cancelar {
+  background: #d6d6d6;
   color: #333;
+  box-shadow: none !important;
 }
 
-button.cancelar:hover {
-  background-color: #bbb;
+.cancelar:hover {
+  background: #bcbcbc;
 }
 
-button i {
-  font-size: 1.2rem; /* Íconos más grandes */
-}
-
-/* Lista de tareas */
-.lista-card {
-  margin-top: 30px;
-}
-
-.lista-card h3 {
-  color: #4f46e5;
-  margin-bottom: 15px;
-}
+/* ===========================
+   LISTA DE TAREAS
+=========================== */
 
 .tarea-item {
   display: flex;
   justify-content: space-between;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+  border-left: 5px solid #4b47ff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition: 0.25s ease;
 }
 
-.tarea-item h4 {
-  font-size: 1.2rem;
-  color: #333;
+.tarea-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(75, 71, 255, 0.15);
+  background: #f8f8ff;
 }
 
-.tarea-item p {
-  color: #666;
-  font-size: 1rem;
+.tarea-info h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
 }
 
-.tarea-item small {
-  color: #999;
-  font-size: 0.85rem;
+.tarea-info p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 15px;
 }
 
-.acciones {
-  display: flex;
-  gap: 10px;
+small {
+  color: #777;
+  font-size: 12px;
 }
+
+/* ===========================
+   BOTONES ACCIONES
+=========================== */
 
 .acciones button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #4f46e5;
-  color: #fff;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  margin-left: 10px;
 }
 
-.acciones button:hover {
-  background-color: #4338ca;
+/* Botón editar */
+.acciones button:first-child {
+  background: #f0f0ff;
+  color: #4b47ff;
+  box-shadow: none;
 }
 
+.acciones button:first-child:hover {
+  background: #e0e0ff;
+}
+
+/* Botón eliminar */
 .eliminar {
-  background-color: #e53e3e;
+  background: #e63946;
+  color: white;
+  box-shadow: 0 5px 12px rgba(230, 57, 70, 0.25);
 }
 
 .eliminar:hover {
-  background-color: #c53030;
+  background: #c92d38;
+  transform: translateY(-3px);
 }
 
-.acciones button i {
-  font-size: 1.2rem; /* Íconos más grandes */
-}
 
-/* Responsividad */
-@media (max-width: 768px) {
-  .tareas-container {
-    width: 90%;
-  }
-
-  .form-card, .lista-card {
-    padding: 15px;
-  }
-
-  .buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  button {
-    width: 100%;
-  }
-}

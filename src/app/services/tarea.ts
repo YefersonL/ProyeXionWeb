@@ -8,12 +8,13 @@ import { Tarea } from '../models/tarea';
 })
 export class TareaService {
 
-  private apiUrl = 'http://localhost:3000/api/tareas';
+  private apiUrl = 'http://localhost:5000/api/tareas';
 
   constructor(private http: HttpClient) {}
 
+  // 🔥 IMPORTANTE: Aquí lees el token correcto
   private getAuthHeaders() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('accessToken'); // <-- CORREGIDO
     return {
       headers: new HttpHeaders({
         Authorization: `Bearer ${token}`

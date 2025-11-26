@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';   // <-- ESTA ES LA CLAVE !!
 import { TareaService } from '../../services/tarea';
 import { Tarea } from '../../models/tarea';
 
 @Component({
   selector: 'app-mis-tareas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule], // <-- AGREGA RouterModule AQUÍ
   templateUrl: './mis-tareas.component.html',
   styleUrls: ['./mis-tareas.component.css']
 })
