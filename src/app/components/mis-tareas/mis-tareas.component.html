@@ -1,0 +1,46 @@
+<section class="tareas-container">
+
+  <h2>Mis Tareas</h2>
+
+  <!-- Formulario para crear/editar tareas -->
+  <div class="card form-card">
+    <h3>{{ editando ? 'Editar Tarea' : 'Nueva Tarea' }}</h3>
+
+    <label>Título</label>
+    <input type="text" [(ngModel)]="form.titulo" placeholder="Ingrese el título de la tarea">
+
+    <label>Descripción</label>
+    <textarea rows="4" [(ngModel)]="form.descripcion" placeholder="Ingrese una descripción"></textarea>
+
+    <div class="buttons">
+      <button (click)="guardar()">
+        {{ editando ? 'Actualizar' : 'Crear' }}
+      </button>
+
+      <button *ngIf="editando" class="cancelar" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <!-- Lista de tareas -->
+  <div class="card lista-card">
+    <h3>Tareas</h3>
+
+    <p *ngIf="cargando">Cargando...</p>
+    <p *ngIf="!cargando && tareas.length === 0">Aún no tienes tareas.</p>
+
+    <div *ngFor="let t of tareas" class="tarea-item">
+      <div class="tarea-info">
+        <h4>{{ t.titulo }}</h4>
+        <p>{{ t.descripcion }}</p>
+        <small>{{ t.fechaCreacion | date:'short' }}</small>
+      </div>
+      <div class="acciones">
+        <button (click)="editar(t)">Editar</button>
+        <button class="eliminar" (click)="eliminar(t._id!)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+</section>

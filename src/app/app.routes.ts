@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { Register } from './components/register/register';
 import { Homei } from './components/homei/homei';
 import { Login } from './components/authentication/login/login';
@@ -10,12 +9,32 @@ import { Profile } from './components/profile/profile';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+
+    // 🔹 RUTA POR DEFECTO → Login
     { path: '', redirectTo: '/login', pathMatch: 'full' },
+
+    // 🔹 AUTENTICACIÓN
     { path: 'login', component: Login },
     { path: 'register', component: Register },
+
+    // 🔹 DASHBOARD
     { path: 'dashboard', component: Homei, canActivate: [authGuard] },
+// 🔹 MIS TAREAS (CARGA DIFERIDA)
+    {
+        path: 'mis-tareas',
+        loadComponent: () =>
+            import('./components/mis-tareas/mis-tareas.component')
+                .then(m => m.MisTareasComponent),
+        canActivate: [authGuard]
+    },
+    // 🔹 PERFIL
     { path: 'profile', component: Profile, canActivate: [authGuard] },
+
+    // 🔹 BASE
     { path: 'animal', component: Animal },
     { path: 'users', component: Users },
+
+    // 🔹 LOGOUT
     { path: 'logout', component: Logout }
+    
 ];
