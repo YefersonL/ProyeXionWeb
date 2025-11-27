@@ -1,0 +1,665 @@
+/* ========================================
+   DASHBOARD DE PROYEXION - ESTILOS
+   ======================================== */
+
+/* ===== LAYOUT GENERAL ===== */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #4e54c8 0%, #8f94fb 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    padding: 1.5rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none;
+    padding: 0;
+    line-height: 1;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-item.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: 600;
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: white;
+}
+
+.nav-item i {
+    margin-right: 0.75rem;
+    font-size: 1.2rem;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s ease;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+    background: white;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+    display: none;
+    padding: 0;
+    margin-right: 1rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 50px;
+}
+
+.user-info i {
+    font-size: 1.5rem;
+    color: #4e54c8;
+}
+
+.user-name {
+    font-weight: 500;
+    color: #333;
+}
+
+/* ===== ÁREA DE CONTENIDO ===== */
+.content-area {
+    flex: 1;
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
+}
+
+/* ===== TARJETAS ESTADÍSTICAS ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    flex-shrink: 0;
+}
+
+.stat-primary .stat-icon {
+    background-color: #e3f2fd;
+    color: #2196f3;
+}
+
+.stat-warning .stat-icon {
+    background-color: #fff3e0;
+    color: #ff9800;
+}
+
+.stat-success .stat-icon {
+    background-color: #e8f5e9;
+    color: #4caf50;
+}
+
+.stat-info .stat-icon {
+    background-color: #f3e5f5;
+    color: #9c27b0;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 0.25rem 0;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #666;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* ===== SECCIONES DE CONTENIDO ===== */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.content-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: #4e54c8;
+}
+
+.btn-link {
+    color: #4e54c8;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+}
+
+.btn-link:hover {
+    color: #3a40a0;
+    text-decoration: underline;
+}
+
+/* ===== TARJETAS DE PROYECTOS ===== */
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.project-card {
+    padding: 1.25rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.project-card:hover {
+    border-color: #4e54c8;
+    box-shadow: 0 2px 8px rgba(78, 84, 200, 0.15);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.project-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-activo {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-completado {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge-pendiente {
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+.project-description {
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.project-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8125rem;
+    color: #666;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.meta-item i {
+    color: #4e54c8;
+}
+
+/* ===== LISTA DE TAREAS ===== */
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.task-item:hover {
+    background-color: #f8f9fa;
+    border-color: #4e54c8;
+}
+
+.task-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-top: 0.125rem;
+}
+
+.task-content {
+    flex: 1;
+}
+
+.task-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.375rem 0;
+}
+
+.task-description {
+    font-size: 0.8125rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.task-date {
+    color: #999;
+    font-size: 0.8125rem;
+}
+
+/* ===== ESTADO VACÍO ===== */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #999;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+/* ===== BOTONES ===== */
+.btn {
+    padding: 0.625rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(78, 84, 200, 0.3);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 991px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.collapsed {
+        transform: translateX(0);
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .content-area {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+/* ===== OVERLAY PARA SIDEBAR EN MÓVILES ===== */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+@media (min-width: 992px) {
+    .sidebar-overlay {
+        display: none !important;
+    }
+}
+
+/* Contenedor de la vista de proyectos */
+.project-container {
+  margin: 20px;
+}
+
+/* Contenedor de cada tarjeta de proyecto */
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Estilo para las tarjetas de los proyectos */
+.project-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Cabecera de la tarjeta de proyecto */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.project-description {
+  color: #666;
+  margin: 10px 0;
+}
+
+/* Metainformación de la tarjeta de proyecto */
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Estilo para las acciones de los botones */
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-item i {
+  font-size: 1.2rem;
+}
+
+/* Estado vacío cuando no hay proyectos */
+.empty-state {
+  text-align: center;
+  padding: 20px;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: #ccc;
+}
+
+/* Botones */
+.btn-link {
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para los botones de editar y eliminar */
+.btn-sm {
+  padding: 5px 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  border-color: #e0a800;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}

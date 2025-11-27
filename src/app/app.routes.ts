@@ -31,11 +31,10 @@ export const routes: Routes = [
     },
 
     // 🔹 PROYECTOS
-    { path: 'proyectos', loadComponent: () =>
-            import('./components/proyecto/proyecto')
-                .then(mp => mp.ProyectoComponent ),
-        canActivate: [authGuard] },
-    { path: 'proyectos/editar/:id', component: ProyectoComponent },  // Esta ruta maneja tanto crear como editar
+    { path: 'proyectos', component: ProyectoComponent },             // Ruta para ver los proyectos
+    { path: 'proyectos/crear', component: ProyectoComponent },     // Ruta para crear un proyecto
+    { path: 'proyectos/editar/:id', component: ProyectoComponent },// Ruta para editar un proyecto
+
 
     // 🔹 PERFIL
     { path: 'profile', component: Profile, canActivate: [authGuard] },
@@ -46,5 +45,5 @@ export const routes: Routes = [
 
     // 🔹 LOGOUT
     { path: 'logout', component: Logout }
-    
+
 ];

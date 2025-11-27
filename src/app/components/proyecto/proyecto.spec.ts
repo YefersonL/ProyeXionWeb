@@ -6,8 +6,8 @@ import { DatePipe } from '@angular/common';  // Importa DatePipe desde @angular/
 
 @Component({
   selector: 'app-proyecto',
-  templateUrl: './proyecto.html',
-  styleUrls: ['./proyecto.css'],
+  templateUrl: './proyecto.component.html',
+  styleUrls: ['./proyecto.component.css'],
   providers: [DatePipe]  // Añadimos DatePipe a los providers de este componente
 })
 export class ProyectoComponent implements OnInit {

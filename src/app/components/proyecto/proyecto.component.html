@@ -1,0 +1,99 @@
+<!-- DASHBOARD DE PROYEXION -->
+<div class="dashboard-container">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <h3 class="sidebar-brand">ProyeXion</h3>
+      <button class="sidebar-toggle d-lg-none" (click)="toggleSidebar()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/proyectos" routerLinkActive="active" class="nav-item">
+        <i class="bi bi-folder"></i>
+        <span>Proyectos</span>
+      </a>
+      <a routerLink="/mis-tareas" routerLinkActive="active" class="nav-item">
+        <i class="bi bi-check2-square"></i>
+        <span>Mis Tareas</span>
+      </a>
+      <a routerLink="/profile" class="nav-item">
+        <i class="bi bi-person"></i>
+        <span>Mi Perfil</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="javascript:void(0)" class="nav-item text-danger">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Cerrar Sesión</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main-content">
+    <header class="topbar">
+      <button class="menu-toggle d-lg-none" (click)="toggleSidebar()">
+        <i class="bi bi-list"></i>
+      </button>
+      <h1 class="page-title">Gestión de Proyectos</h1>
+    </header>
+
+    <!-- ÁREA DE CONTENIDO -->
+    <main class="content-area">
+      <!-- BOTÓN CREAR PROYECTO -->
+      <div class="content-header">
+        <button class="btn btn-primary" routerLink="/proyectos/crear">
+          <i class="bi bi-plus"></i> Crear Proyecto
+        </button>
+      </div><br>
+
+      <!-- LISTA DE PROYECTOS -->
+      <div class="project-list">
+        <div class="project-card" *ngFor="let proyecto of proyectos">
+          <div class="project-header">
+            <h3 class="project-title">{{ proyecto.nombre }}</h3>
+            <span class="badge" [ngClass]="'badge-' + proyecto.estado.toLowerCase()">
+              {{ proyecto.estado }}
+            </span>
+          </div>
+          <p class="project-description">{{ proyecto.descripcion }}</p>
+          <div class="project-meta">
+            <span class="meta-item">
+              <i class="bi bi-calendar"></i>
+              {{ proyecto.fechaInicio | date: 'dd/MM/yyyy' }}
+            </span>
+            <span class="meta-item">
+              <!-- Botón de Editar Proyecto: Redirige a la ruta de editar con el ID -->
+              <button class="btn btn-sm btn-warning" [routerLink]="['/proyectos/editar', proyecto._id]">
+                <i class="bi bi-pencil"></i> Editar
+              </button>
+              <!-- Botón de Eliminar Proyecto -->
+              <button class="btn btn-sm btn-danger" (click)="eliminarProyecto(proyecto._id)">
+                <i class="bi bi-trash"></i> Eliminar
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <!-- Mensaje si no hay proyectos -->
+        <div class="empty-state" *ngIf="proyectos.length === 0">
+          <i class="bi bi-folder-x"></i>
+          <p>No hay proyectos registrados</p>
+          <button class="btn btn-primary" routerLink="/proyectos/crear">
+            Crear Proyecto
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Overlay para cerrar sidebar en móviles -->
+<div class="sidebar-overlay" [class.active]="!sidebarCollapsed" (click)="toggleSidebar()"></div>
