@@ -48,14 +48,14 @@
     <!-- ÁREA DE CONTENIDO -->
     <main class="content-area">
       <!-- BOTÓN CREAR PROYECTO -->
-      <div class="content-header">
+      <div class="content-header" *ngIf="modo === 'lista'">
         <button class="btn btn-primary" routerLink="/proyectos/crear">
           <i class="bi bi-plus"></i> Crear Proyecto
         </button>
       </div><br>
 
       <!-- LISTA DE PROYECTOS -->
-      <div class="project-list">
+      <div class="project-list" *ngIf="modo === 'lista'">
         <div class="project-card" *ngFor="let proyecto of proyectos">
           <div class="project-header">
             <h3 class="project-title">{{ proyecto.nombre }}</h3>
@@ -89,6 +89,74 @@
           <button class="btn btn-primary" routerLink="/proyectos/crear">
             Crear Proyecto
           </button>
+        </div>
+      </div>
+
+      <!-- FORMULARIO DE CREACIÓN / EDICIÓN -->
+      <div class="project-form-container" *ngIf="modo !== 'lista'">
+        <div class="card">
+          <div class="card-header">
+            <h3>{{ modo === 'crear' ? 'Crear Nuevo Proyecto' : 'Editar Proyecto' }}</h3>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="modo === 'crear' ? crearProyecto() : actualizarProyecto()">
+              <div class="form-group mb-3">
+                <label for="nombre">Nombre del Proyecto</label>
+                <input type="text" class="form-control" id="nombre" [(ngModel)]="proyectoForm.nombre" name="nombre"
+                  required>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="descripcion">Descripción</label>
+                <textarea class="form-control" id="descripcion" [(ngModel)]="proyectoForm.descripcion"
+                  name="descripcion" rows="3" required></textarea>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="fechaInicio">Fecha de Inicio</label>
+                <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="proyectoForm.fechaInicio"
+                  name="fechaInicio" required>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="estado">Estado</label>
+                <select class="form-control" id="estado" [(ngModel)]="proyectoForm.estado" name="estado">
+                  <option value="Activo">Activo</option>
+                  <option value="En Progreso">En Progreso</option>
+                  <option value="Finalizado">Finalizado</option>
+                  <option value="Pausado">Pausado</option>
+                </select>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success me-2">
+                  <i class="bi bi-save"></i> Guardar
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="cancelar()">
+                  <i class="bi bi-x-circle"></i> Cancelar
+                </button>
+              </div>
+            </form>
+
+            <!-- Tareas asociadas al proyecto (solo en modo editar) -->
+            <div *ngIf="modo === 'editar' && tareasProyecto.length > 0" class="mt-4">
+              <h4><i class="bi bi-check2-square"></i> Tareas Asociadas</h4>
+              <div class="tasks-list">
+                <div *ngFor="let tarea of tareasProyecto" class="task-item">
+                  <div class="task-checkbox">
+                    <input type="checkbox" [checked]="tarea.completada" disabled>
+                  </div>
+                  <div class="task-content">
+                    <h5>{{ tarea.titulo }}</h5>
+                    <p *ngIf="tarea.descripcion">{{ tarea.descripcion }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="modo === 'editar' && tareasProyecto.length === 0" class="mt-4">
+              <p class="text-muted"><i class="bi bi-info-circle"></i> No hay tareas asociadas a este proyecto.</p>
+            </div>
+          </div>
         </div>
       </div>
     </main>

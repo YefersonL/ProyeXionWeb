@@ -1,6 +1,8 @@
 import { Component, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { ProyectoService } from '../../services/proyecto';
+import { TareaService } from '../../services/tarea';
 
 @Component({
   selector: 'app-homei',
@@ -16,64 +18,22 @@ export class Homei {
   userName = 'Usuario';
 
   // Estadísticas
-  totalProyectos = 12;
-  tareasActivas = 8;
-  tareasCompletadas = 24;
-  totalMiembros = 15;
+  totalProyectos = 0;
+  tareasActivas = 0;
+  tareasCompletadas = 0;
+  totalMiembros = 0;
 
-  // Proyectos recientes (datos de ejemplo)
-  proyectosRecientes = [
-    {
-      nombre: 'Sistema de Gestión de Inventarios',
-      descripcion: 'Desarrollo de plataforma web para control de inventarios en tiempo real',
-      estado: 'Activo',
-      fechaInicio: new Date('2024-01-15')
-    },
-    {
-      nombre: 'App Móvil de Delivery',
-      descripcion: 'Aplicación móvil multiplataforma para servicio de entregas',
-      estado: 'Activo',
-      fechaInicio: new Date('2024-02-01')
-    },
-    {
-      nombre: 'Portal de Clientes',
-      descripcion: 'Portal web para gestión de clientes y servicios',
-      estado: 'Completado',
-      fechaInicio: new Date('2023-12-10')
-    }
-  ];
+  // Proyectos recientes (datos reales)
+  proyectosRecientes: any[] = [];
 
-  // Tareas pendientes (datos de ejemplo)
-  tareasPendientes = [
-    {
-      titulo: 'Diseñar mockups de interfaz',
-      descripcion: 'Crear diseños de las pantallas principales',
-      completada: false,
-      fechaCreacion: new Date('2024-11-18')
-    },
-    {
-      titulo: 'Implementar autenticación JWT',
-      descripcion: 'Configurar sistema de autenticación con tokens',
-      completada: false,
-      fechaCreacion: new Date('2024-11-19')
-    },
-    {
-      titulo: 'Revisar código del módulo de reportes',
-      descripcion: 'Code review y corrección de bugs',
-      completada: false,
-      fechaCreacion: new Date('2024-11-20')
-    },
-    {
-      titulo: 'Actualizar documentación técnica',
-      descripcion: 'Documentar nuevas funcionalidades implementadas',
-      completada: false,
-      fechaCreacion: new Date('2024-11-20')
-    }
-  ];
+  // Tareas pendientes (datos reales)
+  tareasPendientes: any[] = [];
 
   constructor(
     private renderer: Renderer2,
-    private router: Router
+    private router: Router,
+    private proyectoService: ProyectoService,
+    private tareaService: TareaService
   ) { }
 
   ngOnInit() {
@@ -85,6 +45,41 @@ export class Homei {
 
     // Remover el fondo degradado del body si existe
     this.renderer.removeClass(document.body, 'bg-gradient-primary');
+
+    // Cargar datos reales
+    this.cargarProyectos();
+    this.cargarTareas();
+  }
+
+  cargarProyectos() {
+    this.proyectoService.obtenerProyectos().subscribe(
+      (proyectos) => {
+        // Mostrar solo los 3 proyectos más recientes
+        this.proyectosRecientes = proyectos.slice(0, 3);
+
+        // Calcular estadísticas
+        this.totalProyectos = proyectos.length;
+      },
+      (error) => {
+        console.error('Error cargando proyectos', error);
+      }
+    );
+  }
+
+  cargarTareas() {
+    this.tareaService.obtenerTareas().subscribe(
+      (tareas) => {
+        // Filtrar tareas no completadas
+        this.tareasPendientes = tareas.filter(t => !t.completada).slice(0, 4);
+
+        // Calcular estadísticas
+        this.tareasActivas = tareas.filter(t => !t.completada).length;
+        this.tareasCompletadas = tareas.filter(t => t.completada).length;
+      },
+      (error) => {
+        console.error('Error cargando tareas', error);
+      }
+    );
   }
 
   ngOnDestroy() {

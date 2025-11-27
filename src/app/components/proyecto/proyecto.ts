@@ -2,27 +2,92 @@ import { Component, OnInit } from '@angular/core';
 import { ProyectoService } from '../../services/proyecto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';  
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { Renderer2 } from '@angular/core';
+import { TareaService } from '../../services/tarea';
 
 @Component({
   selector: 'app-proyecto',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './proyecto.component.html',  // Ruta correcta al archivo HTML
+  templateUrl: './proyecto.component.html',
   styleUrls: ['./proyecto.component.css']
 })
 export class ProyectoComponent implements OnInit {
   proyectos: any[] = [];
   proyectoSeleccionado: any = null;
+  modo: 'lista' | 'crear' | 'editar' = 'lista';
+  tareasProyecto: any[] = [];
+
+  proyectoForm: any = {
+    nombre: '',
+    descripcion: '',
+    fechaInicio: '',
+    estado: 'Activo'
+  };
 
   // Estado del sidebar (para móviles)
   sidebarCollapsed = true;
 
-  constructor(private proyectoService: ProyectoService, private renderer: Renderer2) {}
+  constructor(
+    private proyectoService: ProyectoService,
+    private renderer: Renderer2,
+    private route: ActivatedRoute,
+    private router: Router,
+    private tareaService: TareaService
+  ) { }
 
   ngOnInit(): void {
-    this.cargarProyectos();
+    this.route.url.subscribe(url => {
+      if (url[1] && url[1].path === 'crear') {
+        this.modo = 'crear';
+        this.resetForm();
+      } else if (url[1] && url[1].path === 'editar') {
+        this.modo = 'editar';
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+          this.cargarProyectoParaEditar(id);
+        }
+      } else {
+        this.modo = 'lista';
+        this.cargarProyectos();
+      }
+    });
+  }
+
+  resetForm() {
+    this.proyectoForm = {
+      nombre: '',
+      descripcion: '',
+      fechaInicio: new Date().toISOString().split('T')[0],
+      estado: 'Activo'
+    };
+  }
+
+  cargarProyectoParaEditar(id: string) {
+    this.proyectoService.obtenerProyecto(id).subscribe(
+      (proyecto) => {
+        this.proyectoSeleccionado = proyecto;
+        this.proyectoForm = { ...proyecto };
+        // Formatear fecha para input date
+        if (this.proyectoForm.fechaInicio) {
+          this.proyectoForm.fechaInicio = new Date(this.proyectoForm.fechaInicio).toISOString().split('T')[0];
+        }
+        // Cargar tareas asociadas a este proyecto
+        this.cargarTareasProyecto(id);
+      },
+      (error) => console.error("Error cargando proyecto", error)
+    );
+  }
+
+  cargarTareasProyecto(proyectoId: string) {
+    this.tareaService.obtenerTareas().subscribe(
+      (tareas) => {
+        // Filtrar tareas que pertenecen a este proyecto
+        this.tareasProyecto = tareas.filter((t: any) => t.proyecto?._id === proyectoId);
+      },
+      (error) => console.error("Error cargando tareas", error)
+    );
   }
 
   // Cargar todos los proyectos
@@ -37,24 +102,11 @@ export class ProyectoComponent implements OnInit {
     );
   }
 
-  // Ver un proyecto por ID
-  verProyecto(id: string): void {
-    this.proyectoService.obtenerProyecto(id).subscribe(
-      (proyecto) => {
-        this.proyectoSeleccionado = proyecto;
-      },
-      (error) => {
-        console.error("Error obteniendo proyecto", error);
-      }
-    );
-  }
-
   // Crear un nuevo proyecto
   crearProyecto(): void {
-    const nuevoProyecto = { nombre: 'Nuevo Proyecto', descripcion: 'Descripción', estado: 'Activo' };
-    this.proyectoService.crearProyecto(nuevoProyecto).subscribe(
+    this.proyectoService.crearProyecto(this.proyectoForm).subscribe(
       () => {
-        this.cargarProyectos(); // Recarga la lista de proyectos
+        this.router.navigate(['/proyectos']);
       },
       (error) => {
         console.error("Error creando proyecto", error);
@@ -63,21 +115,23 @@ export class ProyectoComponent implements OnInit {
   }
 
   // Actualizar un proyecto
-  actualizarProyecto(id: string): void {
+  actualizarProyecto(): void {
     if (this.proyectoSeleccionado) {
       this.proyectoService
-        .actualizarProyecto(this.proyectoSeleccionado._id, this.proyectoSeleccionado)
+        .actualizarProyecto(this.proyectoSeleccionado._id, this.proyectoForm)
         .subscribe(
           () => {
-            this.cargarProyectos(); // Recarga la lista de proyectos
+            this.router.navigate(['/proyectos']);
           },
           (error) => {
             console.error("Error actualizando proyecto", error);
           }
         );
-    } else {
-      console.log('No hay proyecto seleccionado');
     }
+  }
+
+  cancelar() {
+    this.router.navigate(['/proyectos']);
   }
 
   // Eliminar un proyecto
@@ -97,11 +151,5 @@ export class ProyectoComponent implements OnInit {
   // Método para alternar el estado de la barra lateral
   toggleSidebar() {
     this.sidebarCollapsed = !this.sidebarCollapsed;
-  }
-
-  // ngOnDestroy ya no es necesario si no estás usando el Renderer2 para limpiar algo del DOM
-  ngOnDestroy() {
-    // Si no estás manipulando el DOM directamente, este método ya no es necesario
-    // this.renderer.removeClass(document.body, 'bg-gradient-primary');
   }
 }

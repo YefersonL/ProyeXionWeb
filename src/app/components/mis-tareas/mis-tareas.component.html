@@ -19,6 +19,12 @@
     <label>Descripción</label>
     <textarea rows="4" [(ngModel)]="form.descripcion" placeholder="Ingrese una descripción"></textarea>
 
+    <label>Proyecto (opcional)</label>
+    <select [(ngModel)]="form.proyecto">
+      <option [value]="undefined">Sin proyecto</option>
+      <option *ngFor="let p of proyectos" [value]="p._id">{{ p.nombre }}</option>
+    </select>
+
     <div class="buttons">
       <button (click)="guardar()">
         {{ editando ? 'Actualizar' : 'Crear' }}
@@ -41,6 +47,9 @@
       <div class="tarea-info">
         <h4>{{ t.titulo }}</h4>
         <p>{{ t.descripcion }}</p>
+        <small *ngIf="t.proyecto" class="badge-proyecto">
+          📁 {{ t.proyecto?.nombre }}
+        </small>
         <small>{{ t.fechaCreacion | date:'short' }}</small>
       </div>
       <div class="acciones">

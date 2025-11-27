@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';   // <-- ESTA ES LA CLAVE !!
 import { TareaService } from '../../services/tarea';
 import { Tarea } from '../../models/tarea';
+import { ProyectoService } from '../../services/proyecto';
 
 @Component({
   selector: 'app-mis-tareas',
@@ -15,20 +16,37 @@ import { Tarea } from '../../models/tarea';
 export class MisTareasComponent implements OnInit {
 
   tareas: Tarea[] = [];
+  proyectos: any[] = [];
   cargando = false;
   error = '';
 
   form: Partial<Tarea> = {
     titulo: '',
-    descripcion: ''
+    descripcion: '',
+    proyecto: undefined
   };
 
   editando: Tarea | null = null;
 
-  constructor(private tareaService: TareaService) {}
+  constructor(
+    private tareaService: TareaService,
+    private proyectoService: ProyectoService
+  ) { }
 
   ngOnInit(): void {
     this.cargarTareas();
+    this.cargarProyectos();
+  }
+
+  cargarProyectos() {
+    this.proyectoService.obtenerProyectos().subscribe({
+      next: (data) => {
+        this.proyectos = data;
+      },
+      error: () => {
+        console.error('Error al cargar proyectos');
+      }
+    });
   }
 
   cargarTareas() {
@@ -63,13 +81,14 @@ export class MisTareasComponent implements OnInit {
     this.editando = tarea;
     this.form = {
       titulo: tarea.titulo,
-      descripcion: tarea.descripcion
+      descripcion: tarea.descripcion,
+      proyecto: (tarea as any).proyecto?._id
     };
   }
 
   cancelar() {
     this.editando = null;
-    this.form = { titulo: '', descripcion: '' };
+    this.form = { titulo: '', descripcion: '', proyecto: undefined };
   }
 
   eliminar(id: string) {
