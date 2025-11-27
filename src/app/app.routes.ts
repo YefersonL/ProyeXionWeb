@@ -7,6 +7,7 @@ import { Users } from './components/base/users/users';
 import { Logout } from './components/authentication/logout/logout';
 import { Profile } from './components/profile/profile';
 import { authGuard } from './guards/auth.guard';
+import { ProyectoComponent } from './components/proyecto/proyecto';
 
 export const routes: Routes = [
 
@@ -19,7 +20,8 @@ export const routes: Routes = [
 
     // 🔹 DASHBOARD
     { path: 'dashboard', component: Homei, canActivate: [authGuard] },
-// 🔹 MIS TAREAS (CARGA DIFERIDA)
+
+    // 🔹 MIS TAREAS (CARGA DIFERIDA)
     {
         path: 'mis-tareas',
         loadComponent: () =>
@@ -27,6 +29,14 @@ export const routes: Routes = [
                 .then(m => m.MisTareasComponent),
         canActivate: [authGuard]
     },
+
+    // 🔹 PROYECTOS
+    { path: 'proyectos', loadComponent: () =>
+            import('./components/proyecto/proyecto')
+                .then(mp => mp.ProyectoComponent ),
+        canActivate: [authGuard] },
+    { path: 'proyectos/editar/:id', component: ProyectoComponent },  // Esta ruta maneja tanto crear como editar
+
     // 🔹 PERFIL
     { path: 'profile', component: Profile, canActivate: [authGuard] },
 

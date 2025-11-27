@@ -1,15 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component , signal} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
+import { FormsModule } from '@angular/forms';  // Importar FormsModule
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FormsModule],  // Agregar FormsModule aquí
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App {
   protected readonly title = signal('Plantilla1_Angular');
-
-  
 }
